@@ -1,0 +1,13 @@
+#Fri Mar 31 19:55:33 ICT 2017
+renamed.3=classes3.dex
+renamed.2=classes4.dex
+renamed.1=classes.dex
+renamed.0=classes2.dex
+base.3=F\:\\tai lieu SV\\LuanVan\\sinch-android-rtc-3.9.14\\samples\\sinch-rtc-sample-calling\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\internal_impl-23.1.0_f777c91397d332d77246cf35bc9936e94e451cfc
+base.2=F\:\\tai lieu SV\\LuanVan\\sinch-android-rtc-3.9.14\\samples\\sinch-rtc-sample-calling\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\support-annotations-23.1.0_0086db1bad4aef290ee7df7d9150873ffaba44e4
+base.1=F\:\\tai lieu SV\\LuanVan\\sinch-android-rtc-3.9.14\\samples\\sinch-rtc-sample-calling\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\classes_4add852bae02f8f0308572483c57141d7152268b
+base.0=F\:\\tai lieu SV\\LuanVan\\sinch-android-rtc-3.9.14\\samples\\sinch-rtc-sample-calling\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\classes_4c2eeff7efb39eaead7e1905d0336b9bbcf865c1
+file.3=F\:\\tai lieu SV\\LuanVan\\sinch-android-rtc-3.9.14\\samples\\sinch-rtc-sample-calling\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\internal_impl-23.1.0_f777c91397d332d77246cf35bc9936e94e451cfc\\classes.dex
+file.2=F\:\\tai lieu SV\\LuanVan\\sinch-android-rtc-3.9.14\\samples\\sinch-rtc-sample-calling\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\support-annotations-23.1.0_0086db1bad4aef290ee7df7d9150873ffaba44e4\\classes.dex
+file.1=F\:\\tai lieu SV\\LuanVan\\sinch-android-rtc-3.9.14\\samples\\sinch-rtc-sample-calling\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\classes_4add852bae02f8f0308572483c57141d7152268b\\classes.dex
+file.0=F\:\\tai lieu SV\\LuanVan\\sinch-android-rtc-3.9.14\\samples\\sinch-rtc-sample-calling\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\classes_4c2eeff7efb39eaead7e1905d0336b9bbcf865c1\\classes.dex

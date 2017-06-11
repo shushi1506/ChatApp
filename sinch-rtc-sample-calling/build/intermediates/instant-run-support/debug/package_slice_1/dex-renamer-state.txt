@@ -1,0 +1,4 @@
+#Fri Mar 31 19:55:33 ICT 2017
+base.0=F\:\\tai lieu SV\\LuanVan\\sinch-android-rtc-3.9.14\\samples\\sinch-rtc-sample-calling\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\5\\slice_1
+renamed.0=classes.dex
+file.0=F\:\\tai lieu SV\\LuanVan\\sinch-android-rtc-3.9.14\\samples\\sinch-rtc-sample-calling\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\5\\slice_1\\classes.dex

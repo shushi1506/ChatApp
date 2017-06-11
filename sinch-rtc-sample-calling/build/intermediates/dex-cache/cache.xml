@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="C:\Users\Shushi\.android\build-cache\01775684049d715466b1d8b60a744544eb8b81c9\output\jars\libs\internal_impl-23.1.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="8716243bf04bae8d6c9ca94d27b9a9be7236f0a3">
+        <dex dex="F:\tai lieu SV\LuanVan\sinch-android-rtc-3.9.14\samples\sinch-rtc-sample-calling\build\intermediates\pre-dexed\debug\internal_impl-23.1.0_f777c91397d332d77246cf35bc9936e94e451cfc.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Shushi\.android\build-cache\5e3ae5a10276f4f218162a8b338f8f1e79671d59\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="5d2773d08ab0ea9247f0fc0b3178f5b616cacd0d">
+        <dex dex="F:\tai lieu SV\LuanVan\sinch-android-rtc-3.9.14\samples\sinch-rtc-sample-calling\build\intermediates\pre-dexed\debug\classes_4c2eeff7efb39eaead7e1905d0336b9bbcf865c1.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Shushi\AppData\Local\Android\Sdk\extras\android\m2repository\com\android\support\support-annotations\23.1.0\support-annotations-23.1.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="92e3fc113ec3ee36b64603a38857b95700025633">
+        <dex dex="F:\tai lieu SV\LuanVan\sinch-android-rtc-3.9.14\samples\sinch-rtc-sample-calling\build\intermediates\pre-dexed\debug\support-annotations-23.1.0_0086db1bad4aef290ee7df7d9150873ffaba44e4.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Shushi\.android\build-cache\01775684049d715466b1d8b60a744544eb8b81c9\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="ddde541c289c8b816a8f8fd6c325d80788c522a6">
+        <dex dex="F:\tai lieu SV\LuanVan\sinch-android-rtc-3.9.14\samples\sinch-rtc-sample-calling\build\intermediates\pre-dexed\debug\classes_4add852bae02f8f0308572483c57141d7152268b.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="F:\tai lieu SV\LuanVan\sinch-android-rtc-3.9.14\samples\sinch-rtc-sample-calling\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="c82741bc129dd5f99f11a4ab8666ae24262053b6">
+        <dex dex="F:\tai lieu SV\LuanVan\sinch-android-rtc-3.9.14\samples\sinch-rtc-sample-calling\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_aa557174f4c7b23f84cabb2a67617f365eddf416\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="F:\tai lieu SV\LuanVan\sinch-android-rtc-3.9.14\samples\sinch-rtc-sample-calling\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="762c372b69f1a67ad032ef560248195a1ff7cc08">
+        <dex dex="F:\tai lieu SV\LuanVan\sinch-android-rtc-3.9.14\samples\sinch-rtc-sample-calling\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_657fbd047225fdbfc9cc1651e9d08a0cda678086\classes.dex" />
+    </item>
+
+</items>

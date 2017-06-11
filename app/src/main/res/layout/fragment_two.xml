@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+tools:context="com.example.shushi.fragments.TwoFragment">
+
+
+
+<android.support.v4.widget.SwipeRefreshLayout
+    android:id="@+id/swipeItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_above="@+id/btnclick"
+    >
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:transcriptMode="alwaysScroll"
+            android:divider="@null"
+            android:layout_above="@+id/btnclick"
+            ></ListView>
+
+</android.support.v4.widget.SwipeRefreshLayout>
+
+    <ImageButton
+        android:id="@+id/call_activity_F2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/call_icon"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        />
+
+<ImageView
+    android:id="@+id/btnclick"
+    android:layout_toLeftOf="@id/call_activity_F2"
+    android:layout_alignParentBottom="true"
+    android:src="@drawable/ic_content_send"
+
+    android:layout_width="50dp"
+
+    android:layout_height="50dp" />
+<Button
+    android:id="@+id/btntest"
+    android:layout_toLeftOf="@+id/btnclick"
+    android:layout_alignParentBottom="true"
+
+    android:layout_width="50dp"
+    android:layout_height="wrap_content" />
+<EditText
+    android:layout_alignParentBottom="true"
+    android:id="@+id/txtsend"
+    android:maxHeight="50dp"
+    android:layout_width="match_parent"
+    android:layout_toLeftOf="@id/btntest"
+    android:hint="Enter Message"
+    android:layout_height="wrap_content"
+    />
+
+
+
+
+</RelativeLayout>

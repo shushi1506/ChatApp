@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_call"
+    tools:context="com.example.shushi.testfirebase.FindFriendActivity">
+
+    <LinearLayout
+        android:id="@+id/lnearlayoutFindFreind"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true">
+        <ImageView
+            android:id="@+id/btnBack_FindFriend"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_action_back"/>
+        <ImageView
+            android:id="@+id/btnSearch_FindFriend"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_action_search"/>
+        <EditText
+            android:id="@+id/editTextSearch_FindFriend"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Tim Kiem"
+            />
+
+    </LinearLayout>
+
+   <android.support.v7.widget.RecyclerView
+       android:id="@+id/listViewSearch_FindFriend"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:layout_below="@id/lnearlayoutFindFreind"
+       android:layout_alignParentBottom="true"
+
+       ></android.support.v7.widget.RecyclerView>
+
+</RelativeLayout>

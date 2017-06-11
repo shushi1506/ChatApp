@@ -1,0 +1,7 @@
+#Fri Mar 31 21:12:35 ICT 2017
+base.0=F\:\\tai lieu SV\\LuanVan\\sinch-android-rtc-3.9.14\\samples\\sinch-rtc-sample-calling\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run_aa557174f4c7b23f84cabb2a67617f365eddf416
+renamed.1=classes2.dex
+renamed.0=classes.dex
+file.1=F\:\\tai lieu SV\\LuanVan\\sinch-android-rtc-3.9.14\\samples\\sinch-rtc-sample-calling\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run-bootstrap_657fbd047225fdbfc9cc1651e9d08a0cda678086\\classes.dex
+base.1=F\:\\tai lieu SV\\LuanVan\\sinch-android-rtc-3.9.14\\samples\\sinch-rtc-sample-calling\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run-bootstrap_657fbd047225fdbfc9cc1651e9d08a0cda678086
+file.0=F\:\\tai lieu SV\\LuanVan\\sinch-android-rtc-3.9.14\\samples\\sinch-rtc-sample-calling\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run_aa557174f4c7b23f84cabb2a67617f365eddf416\\classes.dex
