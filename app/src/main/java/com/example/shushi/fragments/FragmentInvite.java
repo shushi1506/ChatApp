@@ -26,6 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import static com.example.shushi.supports.SupportString.EncodeString;
+import static com.example.shushi.supports.SupportString.addSufAll;
 
 /**
  * Created by Shushi on 6/9/2017.
@@ -44,14 +45,12 @@ public class FragmentInvite extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rv = (RecyclerView) inflater.inflate(
-                R.layout.info_list, container, false);
+        rv = (RecyclerView) inflater.inflate(R.layout.info_list, container, false);
         arrayList = new ArrayList<ProfileInviteModel>();
-
         arrayAdapter = new RecyclerViewFindFriendAdapter(arrayList);
         rv.setLayoutManager(new LinearLayoutManager(rv.getContext()));
         rv.setAdapter(arrayAdapter);
-
+        load_data();
         return rv;
     }
 
@@ -62,7 +61,6 @@ public class FragmentInvite extends Fragment {
         query.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
                 String keyFriendMess = (String) dataSnapshot.child("keypushFriend").getValue();
                 Query queryRef = root.child("Users").child(keyFriendMess).limitToFirst(100);
                 queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -72,17 +70,63 @@ public class FragmentInvite extends Fragment {
                         d = dataSnapshot.getValue(ProfileInviteModel.class);
                         d.setInvited(true);
                         d.setFriend(false);
+                        d.setBeInvited(false);
                         arrayList.add(d);
                         arrayAdapter.notifyDataSetChanged();
                     }
-
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
 
                     }
                 });
+            }
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
+            }
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                String keyFriendMess = (String) dataSnapshot.child("keypushFriend").getValue();
+                for (ProfileInviteModel ms : arrayList) {
+                    if (addSufAll(ms.getEmailReset()).equals(keyFriendMess)) {
+                        arrayList.remove(ms);
+                        break;
+                    }
+                }
+                arrayAdapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        Query queryinvited = root.child("Users").child(EncodeString(firebaseAuth.getCurrentUser().getEmail())).child("Invited");
+        queryinvited.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                String keyFriendMess = (String) dataSnapshot.child("keypushFriend").getValue();
+                Query queryRef = root.child("Users").child(keyFriendMess).limitToFirst(100);
+                queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        ProfileInviteModel d = new ProfileInviteModel();
+                        d = dataSnapshot.getValue(ProfileInviteModel.class);
+                        d.setInvited(false);
+                        d.setFriend(false);
+                        d.setBeInvited(true);
+                        arrayList.add(d);
+                        arrayAdapter.notifyDataSetChanged();
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
             }
 
             @Override
@@ -92,7 +136,14 @@ public class FragmentInvite extends Fragment {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
+                String keyFriendMess = (String) dataSnapshot.child("keypushFriend").getValue();
+                for (ProfileInviteModel ms : arrayList) {
+                    if (addSufAll(ms.getEmailReset()).equals(keyFriendMess)) {
+                        arrayList.remove(ms);
+                        break;
+                    }
+                }
+                arrayAdapter.notifyDataSetChanged();
             }
 
             @Override

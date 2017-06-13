@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.shushi.controller.MeThodMessage;
+import com.example.shushi.models.MessageChat;
 import com.example.shushi.models.ProfileInviteModel;
 import com.example.shushi.models.ProfileModel;
 import com.example.shushi.testfirebase.ChatActivity;
@@ -22,7 +24,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import static com.example.shushi.controller.MeThodMessage.addFriend;
+import static com.example.shushi.controller.MeThodMessage.addFriendWithInvite;
+import static com.example.shushi.controller.MeThodMessage.deleteFriend;
+import static com.example.shushi.controller.MeThodMessage.deleteInvite;
+import static com.example.shushi.controller.MeThodMessage.sendInvite;
 import static com.example.shushi.supports.SupportString.EncodeString;
 import static com.example.shushi.supports.SupportString.addSuffixeString;
 
@@ -30,17 +40,18 @@ import static com.example.shushi.supports.SupportString.addSuffixeString;
  * Created by Shushi on 6/9/2017.
  */
 
-public class RecyclerViewFindFriendAdapter  extends RecyclerView.Adapter<RecyclerViewFindFriendAdapter.MyViewHolder>{
+public class RecyclerViewFindFriendAdapter extends RecyclerView.Adapter<RecyclerViewFindFriendAdapter.MyViewHolder> {
     private ArrayList<ProfileInviteModel> profileModels;
 
 
-    public ArrayList<ProfileInviteModel> getProfileModels (){
+    public ArrayList<ProfileInviteModel> getProfileModels() {
         return profileModels;
     }
 
     public RecyclerViewFindFriendAdapter(ArrayList<ProfileInviteModel> moviesList) {
         this.profileModels = moviesList;
     }
+
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
@@ -58,38 +69,114 @@ public class RecyclerViewFindFriendAdapter  extends RecyclerView.Adapter<Recycle
         } catch (Exception ex) {
             holder.circleImageView.setImageResource(R.drawable.giphy);
         }
-        if(movie.isFriend()){
-            holder.btnaddFriend.setVisibility(View.INVISIBLE);
-        }else {
-            holder.btnaddFriend.setVisibility(View.VISIBLE);
+        if (movie.isFriend()) {
+            holder.btnaddFriend.setText("Kết Bạn");
+            holder.btnremoveAddfriend.setText("Xóa Bạn");
+            holder.btnaddFriend.setEnabled(false);
+            holder.btnremoveAddfriend.setEnabled(true);
+            holder.btnaddFriend.setBackground(holder.mView.getResources().getDrawable(R.drawable.button_not_enable));
+            holder.btnremoveAddfriend.setBackground(holder.mView.getResources().getDrawable(R.drawable.button_selector));
+
+        } else {
+
             if (movie.isInvited()) {
-                holder.btnaddFriend.setText("Hủy Kết Bạn");
-            }
-            else {
                 holder.btnaddFriend.setText("Kết Bạn");
+                holder.btnremoveAddfriend.setText("Hủy Kết Bạn");
+                holder.btnaddFriend.setEnabled(false);
+                holder.btnremoveAddfriend.setEnabled(true);
+                holder.btnaddFriend.setBackground(holder.mView.getResources().getDrawable(R.drawable.button_not_enable));
+                holder.btnremoveAddfriend.setBackground(holder.mView.getResources().getDrawable(R.drawable.button_selector));
+
+            } else {
+                if (movie.isBeInvited()) {
+                    holder.btnaddFriend.setText("Chấp Nhận");
+                    holder.btnremoveAddfriend.setText("Từ Chối");
+                    holder.btnaddFriend.setEnabled(true);
+                    holder.btnremoveAddfriend.setEnabled(true);
+                    holder.btnaddFriend.setBackground(holder.mView.getResources().getDrawable(R.drawable.button_selector));
+                    holder.btnremoveAddfriend.setBackground(holder.mView.getResources().getDrawable(R.drawable.button_selector));
+
+                } else {
+                    holder.btnaddFriend.setText("Kết Bạn");
+                    holder.btnremoveAddfriend.setText("Hủy Kết Bạn");
+                    holder.btnaddFriend.setEnabled(true);
+                    holder.btnremoveAddfriend.setEnabled(false);
+                    holder.btnaddFriend.setBackground(holder.mView.getResources().getDrawable(R.drawable.button_selector));
+                    holder.btnremoveAddfriend.setBackground(holder.mView.getResources().getDrawable(R.drawable.button_not_enable));
+
+                }
             }
         }
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final DatabaseReference root;
         root = FirebaseDatabase.getInstance().getReference();
+        holder.btnremoveAddfriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (holder.btnremoveAddfriend.getText().toString()) {
+                    case "Xóa Bạn":
+                        deleteFriend(EncodeString(user.getEmail()), EncodeString(addSuffixeString(movie.getEmailReset())), root);
+                        holder.btnaddFriend.setText("Kết Bạn");
+                        holder.btnremoveAddfriend.setText("Hủy Kết Bạn");
+                        holder.btnaddFriend.setEnabled(true);
+                        holder.btnremoveAddfriend.setEnabled(false);
+                        holder.btnaddFriend.setBackground(holder.mView.getResources().getDrawable(R.drawable.button_selector));
+                        holder.btnremoveAddfriend.setBackground(holder.mView.getResources().getDrawable(R.drawable.button_not_enable));
+                        break;
+                    case "Hủy Kết Bạn":
+                        deleteInvite(EncodeString(user.getEmail()), EncodeString(addSuffixeString(movie.getEmailReset())), root);
+                        holder.btnaddFriend.setText("Kết Bạn");
+                        holder.btnremoveAddfriend.setText("Hủy Kết Bạn");
+                        holder.btnaddFriend.setEnabled(true);
+                        holder.btnremoveAddfriend.setEnabled(false);
+                        holder.btnaddFriend.setBackground(holder.mView.getResources().getDrawable(R.drawable.button_selector));
+                        holder.btnremoveAddfriend.setBackground(holder.mView.getResources().getDrawable(R.drawable.button_not_enable));
+                        break;
+                    case "Từ Chối":
+                        deleteInvite(EncodeString(addSuffixeString(movie.getEmailReset())), EncodeString(user.getEmail()), root);
+                        holder.btnaddFriend.setText("Kết Bạn");
+                        holder.btnremoveAddfriend.setText("Hủy Kết Bạn");
+                        holder.btnaddFriend.setEnabled(true);
+                        holder.btnremoveAddfriend.setEnabled(false);
+                        holder.btnaddFriend.setBackground(holder.mView.getResources().getDrawable(R.drawable.button_selector));
+                        holder.btnremoveAddfriend.setBackground(holder.mView.getResources().getDrawable(R.drawable.button_not_enable));
+                        break;
+                }
+            }
+        });
         holder.btnaddFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-                    if (holder.btnaddFriend.getText().equals("Hủy Kết Bạn")) {
-                        deleteInvite(EncodeString(user.getEmail()), EncodeString(addSuffixeString(movie.getEmailReset())), root);
+                switch (holder.btnaddFriend.getText().toString()) {
+                    case "Chấp Nhận":
+                        MessageChat ms = new MessageChat();
+                        ms.setTextMessage("Hai người đã là bạn");
+                        Calendar today = Calendar.getInstance();
+                        ms.setTimeMessage(String.valueOf(today.getTimeInMillis()));
+                        addFriendWithInvite(EncodeString(user.getEmail()), EncodeString(addSuffixeString(movie.getEmailReset())), root, ms, true);
                         holder.btnaddFriend.setText("Kết Bạn");
-                    } else {
+                        holder.btnremoveAddfriend.setText("Xóa Bạn");
+                        holder.btnaddFriend.setEnabled(false);
+                        holder.btnremoveAddfriend.setEnabled(true);
+                        holder.btnaddFriend.setBackground(holder.mView.getResources().getDrawable(R.drawable.button_not_enable));
+                        holder.btnremoveAddfriend.setBackground(holder.mView.getResources().getDrawable(R.drawable.button_selector));
+                        break;
+                    case "Kết Bạn":
                         sendInvite(EncodeString(user.getEmail()), EncodeString(addSuffixeString(movie.getEmailReset())), root);
-                        holder.btnaddFriend.setText("Hủy Kết Bạn");
-                    }
+                        holder.btnaddFriend.setText("Kết Bạn");
+                        holder.btnremoveAddfriend.setText("Hủy Kết Bạn");
+                        holder.btnaddFriend.setEnabled(false);
+                        holder.btnremoveAddfriend.setEnabled(true);
+                        holder.btnaddFriend.setBackground(holder.mView.getResources().getDrawable(R.drawable.button_not_enable));
+                        holder.btnremoveAddfriend.setBackground(holder.mView.getResources().getDrawable(R.drawable.button_selector));
+                        break;
+                }
             }
         });
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(movie.isFriend()) {
+                if (movie.isFriend()) {
                     Context va = v.getContext();
                     Intent intent = new Intent(va, ChatActivity.class);
                     intent.putExtra("keyPushFriend", movie.getEmailReset());
@@ -106,27 +193,20 @@ public class RecyclerViewFindFriendAdapter  extends RecyclerView.Adapter<Recycle
         return profileModels.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder   {
+    public class MyViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public TextView title;
         public ImageView circleImageView;
-        public Button btnaddFriend;
+        public Button btnaddFriend, btnremoveAddfriend;
+
         public MyViewHolder(View view) {
             super(view);
             mView = view;
             title = (TextView) view.findViewById(R.id.txtdisplay_model_friend);
             circleImageView = (ImageView) view.findViewById(R.id.imageview_model_friend);
-            btnaddFriend=(Button)view.findViewById(R.id.addFriend);
+            btnaddFriend = (Button) view.findViewById(R.id.addFriend);
+            btnremoveAddfriend = (Button) view.findViewById(R.id.removeAddFriend);
         }
-    }
-
-    private void sendInvite(String send,String receive,DatabaseReference databaseReference){
-        databaseReference.child("Users").child(send).child("Invite").child(receive).child("keypushFriend").setValue(receive);
-        databaseReference.child("Users").child(receive).child("Invited").child(send).child("keypushFriend").setValue(send);
-    }
-    private void deleteInvite(String send,String receive,DatabaseReference databaseReference){
-        databaseReference.child("Users").child(send).child("Invite").child(receive).removeValue();
-        databaseReference.child("Users").child(receive).child("Invited").child(send).removeValue();
     }
 
 

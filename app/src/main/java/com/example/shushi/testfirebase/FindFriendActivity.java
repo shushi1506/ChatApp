@@ -43,6 +43,7 @@ public class FindFriendActivity extends AppCompatActivity implements View.OnClic
     private FirebaseUser user;
     RecyclerViewFindFriendAdapter arrayAdapter;
     ArrayList<ProfileInviteModel> arrayList;
+    static Boolean has = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,27 +77,31 @@ public class FindFriendActivity extends AppCompatActivity implements View.OnClic
         if (v == btnSearchFind) {
             String s = editTextFind.getText().toString();
 
-            Query query = root.child("Users").orderByChild("emailReset").equalTo(s);
+            final Query query = root.child("Users").orderByChild("emailReset").equalTo(s);
             query.addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    Toast.makeText(getApplicationContext(), "chay day 1", Toast.LENGTH_LONG).show();
                     final String key = dataSnapshot.getKey();
-                    if (key != null) {
-                        Query q = root.child("Users").child(SupportString.EncodeString(user.getEmail())).child("Friend").child(key);
-                        q.addListenerForSingleValueEvent(new ValueEventListener() {
+                    Toast.makeText(getApplicationContext(), "chay day 1111", Toast.LENGTH_LONG).show();
+                    if (dataSnapshot.exists()) {
+                        Toast.makeText(getApplicationContext(), "chay day 2", Toast.LENGTH_LONG).show();
+                        final Query q = root.child("Users").child(SupportString.EncodeString(user.getEmail())).child("Friend").child(key);
+                        q.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 String k = dataSnapshot.child("keypushFriend").getValue(String.class);
-                                if (k != null) {
+                                if (dataSnapshot.exists()) {
+                                    Toast.makeText(getApplicationContext(), "Load fr", Toast.LENGTH_LONG).show();
                                     Query queryRef = root.child("Users").child(key);
                                     queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
                                             ProfileInviteModel d = new ProfileInviteModel();
                                             d = dataSnapshot.getValue(ProfileInviteModel.class);
-                                            d.setInvited(false);
                                             d.setFriend(true);
                                             d.setInvited(true);
+                                            d.setBeInvited(true);
                                             arrayList.clear();
                                             arrayList.add(d);
                                             arrayAdapter.notifyDataSetChanged();
@@ -107,12 +112,13 @@ public class FindFriendActivity extends AppCompatActivity implements View.OnClic
                                         }
                                     });
                                 } else {
-                                    Query qu = root.child("Users").child(SupportString.EncodeString(user.getEmail())).child("Invite").child(key);
-                                    qu.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    final Query qu = root.child("Users").child(SupportString.EncodeString(user.getEmail())).child("Invite").child(key);
+                                    qu.addValueEventListener(new ValueEventListener() {
                                         @Override
-                                        public void onDataChange(DataSnapshot dataSnapshott) {
-                                            String kta = dataSnapshott.child("keypushFriend").getValue(String.class);
-                                            if (kta != null) {
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            String kta = dataSnapshot.child("keypushFriend").getValue(String.class);
+                                            Toast.makeText(getApplicationContext(), "Load invite", Toast.LENGTH_LONG).show();
+                                            if (dataSnapshot.exists()) {
                                                 Query queryRef = root.child("Users").child(key);
                                                 queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                                     @Override
@@ -121,6 +127,7 @@ public class FindFriendActivity extends AppCompatActivity implements View.OnClic
                                                         d = dataSnapshot.getValue(ProfileInviteModel.class);
                                                         d.setFriend(false);
                                                         d.setInvited(true);
+                                                        d.setBeInvited(false);
                                                         arrayList.clear();
                                                         arrayList.add(d);
                                                         arrayAdapter.notifyDataSetChanged();
@@ -132,18 +139,55 @@ public class FindFriendActivity extends AppCompatActivity implements View.OnClic
                                                     }
                                                 });
                                             } else {
-                                                Query queryRef = root.child("Users").child(key);
-                                                queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                final Query qr = root.child("Users").child(SupportString.EncodeString(user.getEmail())).child("Invited").child(key);
+                                                qr.addListenerForSingleValueEvent(new ValueEventListener() {
                                                     @Override
                                                     public void onDataChange(DataSnapshot dataSnapshot) {
+                                                        Toast.makeText(getApplicationContext(), "Load invited", Toast.LENGTH_LONG).show();
+                                                        String ktp = dataSnapshot.child("keypushFriend").getValue(String.class);
+                                                        if (dataSnapshot.exists()) {
+                                                            Query queryRef = root.child("Users").child(key);
+                                                            queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                                @Override
+                                                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                                                    ProfileInviteModel d = new ProfileInviteModel();
+                                                                    d = dataSnapshot.getValue(ProfileInviteModel.class);
+                                                                    d.setFriend(false);
+                                                                    d.setInvited(false);
+                                                                    d.setBeInvited(true);
+                                                                    arrayList.clear();
+                                                                    arrayList.add(d);
+                                                                    arrayAdapter.notifyDataSetChanged();
+                                                                }
 
-                                                        ProfileInviteModel d = new ProfileInviteModel();
-                                                        d = dataSnapshot.getValue(ProfileInviteModel.class);
-                                                        d.setFriend(false);
-                                                        d.setInvited(false);
-                                                        arrayList.clear();
-                                                        arrayList.add(d);
-                                                        arrayAdapter.notifyDataSetChanged();
+                                                                @Override
+                                                                public void onCancelled(DatabaseError databaseError) {
+
+                                                                }
+                                                            });
+                                                        } else {
+                                                            Query queryRef = root.child("Users").child(key);
+                                                            queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                                @Override
+                                                                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                                                    ProfileInviteModel d = new ProfileInviteModel();
+                                                                    d = dataSnapshot.getValue(ProfileInviteModel.class);
+                                                                    d.setFriend(false);
+                                                                    d.setInvited(false);
+                                                                    d.setBeInvited(false);
+                                                                    arrayList.clear();
+                                                                    arrayList.add(d);
+                                                                    arrayAdapter.notifyDataSetChanged();
+                                                                }
+
+                                                                @Override
+                                                                public void onCancelled(DatabaseError databaseError) {
+
+                                                                }
+                                                            });
+                                                        }
+                                                        qr.removeEventListener(this);
                                                     }
 
                                                     @Override
@@ -151,8 +195,10 @@ public class FindFriendActivity extends AppCompatActivity implements View.OnClic
 
                                                     }
                                                 });
-                                            }
 
+
+                                            }
+                                            qu.removeEventListener(this);
 
                                         }
 
@@ -161,9 +207,8 @@ public class FindFriendActivity extends AppCompatActivity implements View.OnClic
 
                                         }
                                     });
-
                                 }
-
+                                q.removeEventListener(this);
                             }
 
                             @Override
@@ -175,8 +220,8 @@ public class FindFriendActivity extends AppCompatActivity implements View.OnClic
                         arrayList.clear();
                         arrayAdapter.notifyDataSetChanged();
                         Toast.makeText(getApplicationContext(), "Không tìm thấy", Toast.LENGTH_LONG).show();
-
                     }
+                    query.removeEventListener(this);
                 }
 
                 @Override
@@ -205,7 +250,198 @@ public class FindFriendActivity extends AppCompatActivity implements View.OnClic
         if (v == btnBackFind) {
             onBackPressed();
         }
+    }
+
+    private void save() {
+        final String key = "";
+        Boolean email = true;
+        if (email) {
+            final Query q = root.child("Users").child(SupportString.EncodeString(user.getEmail())).child("Friend").child(key);
+            q.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String k = dataSnapshot.child("keypushFriend").getValue(String.class);
+                    if (k != null) {
+                        Query queryRef = root.child("Users").child(key);
+                        queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                ProfileInviteModel d = new ProfileInviteModel();
+                                d = dataSnapshot.getValue(ProfileInviteModel.class);
+                                d.setFriend(true);
+                                d.setInvited(true);
+                                d.setBeInvited(true);
+                                arrayList.clear();
+                                arrayList.add(d);
+                                arrayAdapter.notifyDataSetChanged();
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                            }
+                        });
+                    } else {
+                        final Query qu = root.child("Users").child(SupportString.EncodeString(user.getEmail())).child("Invite").child(key);
+                        qu.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshott) {
+                                String kta = dataSnapshott.child("keypushFriend").getValue(String.class);
+                                if (kta != null) {
+                                    Query queryRef = root.child("Users").child(key);
+                                    queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            ProfileInviteModel d = new ProfileInviteModel();
+                                            d = dataSnapshot.getValue(ProfileInviteModel.class);
+                                            d.setFriend(false);
+                                            d.setInvited(true);
+                                            d.setBeInvited(false);
+                                            arrayList.clear();
+                                            arrayList.add(d);
+                                            arrayAdapter.notifyDataSetChanged();
 
 
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+
+                                        }
+                                    });
+                                } else {
+                                    final Query qr = root.child("Users").child(SupportString.EncodeString(user.getEmail())).child("Invited").child(key);
+                                    qr.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            String ktp = dataSnapshot.child("keypushFriend").getValue(String.class);
+                                            if (ktp != null) {
+                                                Query queryRef = root.child("Users").child(key);
+                                                queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                                        ProfileInviteModel d = new ProfileInviteModel();
+                                                        d = dataSnapshot.getValue(ProfileInviteModel.class);
+                                                        d.setFriend(false);
+                                                        d.setInvited(false);
+                                                        d.setBeInvited(true);
+                                                        arrayList.clear();
+                                                        arrayList.add(d);
+                                                        arrayAdapter.notifyDataSetChanged();
+
+
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(DatabaseError databaseError) {
+
+                                                    }
+                                                });
+                                            } else {
+                                                Query queryRef = root.child("Users").child(key);
+                                                queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                                        ProfileInviteModel d = new ProfileInviteModel();
+                                                        d = dataSnapshot.getValue(ProfileInviteModel.class);
+                                                        d.setFriend(false);
+                                                        d.setInvited(false);
+                                                        d.setBeInvited(false);
+                                                        arrayList.clear();
+                                                        arrayList.add(d);
+                                                        arrayAdapter.notifyDataSetChanged();
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(DatabaseError databaseError) {
+
+                                                    }
+                                                });
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+
+                                        }
+                                    });
+
+
+                                }
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        } else {
+            arrayList.clear();
+            arrayAdapter.notifyDataSetChanged();
+            Toast.makeText(getApplicationContext(), "Không tìm thấy", Toast.LENGTH_LONG).show();
+
+
+        }
+    }
+
+    private boolean checkUser(String s) {
+        Query query = root.child("Users").orderByChild("emailReset").equalTo(s);
+
+        query.addChildEventListener(new ChildEventListener() {
+
+
+
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Toast.makeText(getApplicationContext(), "co chay vao change", Toast.LENGTH_LONG).show();
+
+                if (dataSnapshot.exists()) {
+
+                    Toast.makeText(getApplicationContext(), "co chay vao child", Toast.LENGTH_LONG).show();
+                  has=true;
+                } else{
+
+                    Toast.makeText(getApplicationContext(), "co chay vao else child", Toast.LENGTH_LONG).show();
+                    has=false;
+                }
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(getApplicationContext(), "co chay vao oncancell", Toast.LENGTH_LONG).show();
+            }
+        });
+        if(has){
+            Toast.makeText(getApplicationContext(), "co has", Toast.LENGTH_LONG).show();
+        }
+        return false;
     }
 }

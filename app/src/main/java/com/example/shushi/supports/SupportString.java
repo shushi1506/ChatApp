@@ -18,4 +18,7 @@ public final class SupportString {
     public static String subSuffixeString(String string) {
         return string.replace("@halo.com","").trim();
     }
+    public static String addSufAll(String string){
+        return string+"@halo,com";
+    }
 }

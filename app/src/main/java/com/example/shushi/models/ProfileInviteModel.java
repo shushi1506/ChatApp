@@ -7,6 +7,7 @@ package com.example.shushi.models;
 public class ProfileInviteModel extends ProfileModel {
     private boolean isFriend;
     private boolean isInvited;
+    private boolean isBeInvited;
 
     public ProfileInviteModel() {
     }
@@ -21,6 +22,14 @@ public class ProfileInviteModel extends ProfileModel {
 
     public void setFriend(boolean friend) {
         isFriend = friend;
+    }
+
+    public boolean isBeInvited() {
+        return isBeInvited;
+    }
+
+    public void setBeInvited(boolean beInvited) {
+        isBeInvited = beInvited;
     }
 
     public void setInvited(boolean invited) {

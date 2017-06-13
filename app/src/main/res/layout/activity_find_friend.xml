@@ -6,6 +6,10 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_call"
     tools:context="com.example.shushi.testfirebase.FindFriendActivity">
+<android.support.v7.widget.CardView
+    android:id="@+id/cv_find_friend"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:id="@+id/lnearlayoutFindFreind"
@@ -14,32 +18,34 @@
         android:orientation="horizontal"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true">
-        <ImageView
-            android:id="@+id/btnBack_FindFriend"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_action_back"/>
-        <ImageView
-            android:id="@+id/btnSearch_FindFriend"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_action_search"/>
-        <EditText
-            android:id="@+id/editTextSearch_FindFriend"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="Tim Kiem"
-            />
-
+    <ImageView
+        android:id="@+id/btnBack_FindFriend"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_action_back"/>
+    <ImageView
+        android:id="@+id/btnSearch_FindFriend"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_action_search"/>
+    <EditText
+        android:id="@+id/editTextSearch_FindFriend"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="Tim Kiem"
+        />
     </LinearLayout>
+</android.support.v7.widget.CardView>
+
+
+
 
    <android.support.v7.widget.RecyclerView
        android:id="@+id/listViewSearch_FindFriend"
        android:layout_width="match_parent"
        android:layout_height="match_parent"
-       android:layout_below="@id/lnearlayoutFindFreind"
+       android:layout_below="@id/cv_find_friend"
        android:layout_alignParentBottom="true"
-
        ></android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>

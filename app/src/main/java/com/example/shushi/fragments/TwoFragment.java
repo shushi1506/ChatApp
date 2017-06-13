@@ -70,7 +70,7 @@ public class TwoFragment extends Fragment {
         View view=inflater.inflate(R.layout.fragment_two, container, false);
         btnclick = (ImageView)view.findViewById(R.id.btnclick);
         //test
-        btntest=(Button)view.findViewById(R.id.btntest);
+
 
         txtsend = (EditText) view.findViewById(R.id.txtsend);
         listview = (ListView) view.findViewById(R.id.listView);
@@ -115,30 +115,32 @@ public class TwoFragment extends Fragment {
             }
         });
 
-        btntest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar today = Calendar.getInstance();
-                MessageChat ms = new MessageChat();
-                ms.setTextMessage(txtsend.getText().toString());
-                ms.setTimeMessage(String.valueOf(today.getTimeInMillis()));
-                ms.setMe(false);
-
-                String push=rootuser.push().getKey();
-                ms.setKey(push);
-                 ms.setUrlPhoto(push);
-                Toast.makeText(getContext(),"push:"+ms.getKey(), Toast.LENGTH_SHORT).show();
-
-                root.child("Users").child("01648530887@HaLo,com").child("Friend").child("-KgPiMP-Y_CNsh3v2sQR").child("lastMessage").setValue(ms.getTextMessage());
-                rootuser.child(push).setValue(ms);
-                ms.setMe(true);
-                rootfriend.child(push).setValue(ms);
-                txtsend.setText("");
-                txtsend.isFocused();
-                // listview.setStackFromBottom(true);
-                scrollMyListViewToBottom();
-            }
-        });
+        //region btn test
+        //        btntest.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Calendar today = Calendar.getInstance();
+//                MessageChat ms = new MessageChat();
+//                ms.setTextMessage(txtsend.getText().toString());
+//                ms.setTimeMessage(String.valueOf(today.getTimeInMillis()));
+//                ms.setMe(false);
+//
+//                String push=rootuser.push().getKey();
+//                ms.setKey(push);
+//                 ms.setUrlPhoto(push);
+//                Toast.makeText(getContext(),"push:"+ms.getKey(), Toast.LENGTH_SHORT).show();
+//
+//                root.child("Users").child("01648530887@HaLo,com").child("Friend").child("-KgPiMP-Y_CNsh3v2sQR").child("lastMessage").setValue(ms.getTextMessage());
+//                rootuser.child(push).setValue(ms);
+//                ms.setMe(true);
+//                rootfriend.child(push).setValue(ms);
+//                txtsend.setText("");
+//                txtsend.isFocused();
+//                // listview.setStackFromBottom(true);
+//                scrollMyListViewToBottom();
+//            }
+//        });
+        //endregion
 //        //khoi tao array cho listview
 //
 //

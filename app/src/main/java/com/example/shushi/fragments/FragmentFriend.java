@@ -41,6 +41,7 @@ import java.util.Iterator;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.example.shushi.supports.SupportString.EncodeString;
+import static com.example.shushi.supports.SupportString.addSufAll;
 
 /**
  * Created by Shushi on 6/7/2017.
@@ -142,8 +143,7 @@ public class FragmentFriend extends Fragment  {
 //                    DataSnapshot data = iterators.next();
 
                 String keyFriendMess = (String) dataSnapshot.child("keypushFriend").getValue();
-//                Toast.makeText(getContext(), keyFriendMess, Toast.LENGTH_LONG).show();
-                Query queryRef = root.child("Users").child(keyFriendMess).limitToFirst(100);
+                final Query queryRef = root.child("Users").child(keyFriendMess).limitToFirst(100);
                 queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -151,6 +151,7 @@ public class FragmentFriend extends Fragment  {
                         d = dataSnapshot.getValue(ProfileModel.class);
                         arrayList.add(d);
                         arrayAdapter.notifyDataSetChanged();
+
                     }
 
                     @Override
@@ -169,7 +170,14 @@ public class FragmentFriend extends Fragment  {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
+                String keyFriendMess = (String) dataSnapshot.child("keypushFriend").getValue();
+                for (ProfileModel ms : arrayList) {
+                    if (addSufAll(ms.getEmailReset()).equals(keyFriendMess)) {
+                        arrayList.remove(ms);
+                        break;
+                    }
+                }
+                arrayAdapter.notifyDataSetChanged();
             }
 
             @Override

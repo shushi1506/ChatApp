@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.shushi.fragments.FragmentFriend;
+import com.example.shushi.fragments.FragmentInvite;
 import com.example.shushi.fragments.OneFragment;
 import com.example.shushi.fragments.ThreeFragment;
 import com.example.shushi.fragments.TwoFragment;
@@ -110,7 +111,7 @@ public class TabControlActivity extends BaseActivity implements SinchService.Sta
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new FragmentFriend(), "Chat");
         adapter.addFragment(new ThreeFragment(), "Profile");
-        adapter.addFragment(new FragmentFriend(), "file");
+        adapter.addFragment(new FragmentInvite(), "file");
         viewPager.setAdapter(adapter);
     }
 
