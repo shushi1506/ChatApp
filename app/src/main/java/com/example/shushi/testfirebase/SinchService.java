@@ -1,6 +1,7 @@
 package com.example.shushi.testfirebase;
 
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
@@ -54,7 +55,7 @@ public class SinchService extends Service {
 
             mSinchClient.setSupportCalling(true);
             mSinchClient.startListeningOnActiveConnection();
-           // mSinchClient.setSupportManagedPush(true);
+            // mSinchClient.setSupportManagedPush(true);
             mSinchClient.setSupportActiveConnectionInBackground(true);
 
             mSinchClient.addSinchClientListener(new MySinchClientListener());
@@ -97,7 +98,10 @@ public class SinchService extends Service {
         public String getUserName() {
             return mUserId;
         }
-
+        public void desTroy() {
+           mSinchClient.terminate();
+            mSinchClient=null;
+        }
         public boolean isStarted() {
             return SinchService.this.isStarted();
         }
@@ -172,7 +176,7 @@ public class SinchService extends Service {
 
         @Override
         public void onRegistrationCredentialsRequired(SinchClient client,
-                ClientRegistration clientRegistration) {
+                                                      ClientRegistration clientRegistration) {
         }
     }
 

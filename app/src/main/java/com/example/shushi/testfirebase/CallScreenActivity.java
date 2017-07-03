@@ -64,6 +64,7 @@ public class CallScreenActivity extends BaseActivity {
         });
         mCallId = getIntent().getStringExtra(SinchService.CALL_ID);
     }
+
     @Override
     public void onServiceConnected() {
         Call call = getSinchServiceInterface().getCall(mCallId);
@@ -76,6 +77,7 @@ public class CallScreenActivity extends BaseActivity {
             finish();
         }
     }
+
     @Override
     public void onPause() {
         super.onPause();
@@ -104,6 +106,7 @@ public class CallScreenActivity extends BaseActivity {
         }
         finish();
     }
+
     private String formatTimespan(int totalSeconds) {
         long minutes = totalSeconds / 60;
         long seconds = totalSeconds % 60;
@@ -116,6 +119,7 @@ public class CallScreenActivity extends BaseActivity {
             mCallDuration.setText(formatTimespan(call.getDetails().getDuration()));
         }
     }
+
     private class SinchCallListener implements CallListener {
 
         @Override

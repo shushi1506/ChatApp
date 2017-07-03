@@ -19,6 +19,8 @@ public class MessageChat implements Parcelable {
     private boolean isMe;
     private String urlPhoto;
     private String keyMessage;
+    private boolean isAudio;
+    private boolean isDoc;
 
 
     protected MessageChat(Parcel in) {
@@ -27,6 +29,7 @@ public class MessageChat implements Parcelable {
         isMe = in.readByte() != 0;
         urlPhoto = in.readString();
         keyMessage = in.readString();
+        isAudio = in.readByte() != 0;
     }
 
     @Override
@@ -36,6 +39,7 @@ public class MessageChat implements Parcelable {
         dest.writeByte((byte) (isMe ? 1 : 0));
         dest.writeString(urlPhoto);
         dest.writeString(keyMessage);
+        dest.writeByte((byte) (isAudio ? 1 : 0));
     }
 
     @Override
@@ -54,6 +58,14 @@ public class MessageChat implements Parcelable {
             return new MessageChat[size];
         }
     };
+
+    public boolean isDoc() {
+        return isDoc;
+    }
+
+    public void setDoc(boolean doc) {
+        isDoc = doc;
+    }
 
     public String getKey() {
         return keyMessage;
@@ -95,5 +107,11 @@ public class MessageChat implements Parcelable {
         return urlPhoto;
     }
 
+    public boolean isAudio() {
+        return isAudio;
+    }
 
+    public void setAudio(boolean audio) {
+        isAudio = audio;
+    }
 }

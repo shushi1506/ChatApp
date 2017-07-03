@@ -56,25 +56,21 @@ public class AccountKitActivity extends AppCompatActivity {
                         , Toast.LENGTH_LONG).show();
             }
         });
-        //Code verification twitter
 
         DigitsAuthButton digitsButton = (DigitsAuthButton) findViewById(R.id.auth_button);
         digitsButton.setCallback(new AuthCallback() {
             @Override
-            public void success(DigitsSession session, String phoneNumber) {
+            public void success(DigitsSession session, final String phoneNumber) {
                 // TODO: associate the session userID with your user model
 
-                String passw=CreatePassword(6);
-
-                auth.createUserWithEmailAndPassword(SupportString.addSuffixeString(phoneNumber),passw).addOnCompleteListener(AccountKitActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-
-                    }
-                });
+                String passw = SupportString.CreatePassword(6);
                 Intent intet = new Intent(getApplicationContext(), ChangePassWordActivity.class);
                 intet.putExtra("number", phoneNumber);
                 startActivity(intet);
+                finish();
+
+
+
             }
 
             @Override
@@ -87,17 +83,4 @@ public class AccountKitActivity extends AppCompatActivity {
     }
 
 
-    public String CreatePassword(int length)
-    {
-        String valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-        StringBuilder res = new StringBuilder();
-        Random rnd = new Random();
-        while (res.length() < length) { // length of the random string.
-            int index = (int) (rnd.nextFloat() * valid.length());
-            res.append(valid.charAt(index));
-        }
-        String saltStr = res.toString();
-        return saltStr;
-
-    }
 }

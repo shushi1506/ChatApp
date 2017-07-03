@@ -389,6 +389,8 @@ public class QuickActionPopup extends MyPopupWindow implements OnDismissListener
         public abstract void onItemClick(QuickActionPopup source, int pos, int actionId);
     }
 
+
+
     /**
      * Listener for window dismiss
      *

@@ -145,7 +145,7 @@ public class TwoFragment extends Fragment {
 //
 //
         arrayList = new ArrayList<MessageChat>();
-        arrayAdapter = new CustomAdapter(this.getContext(), arrayList);
+//        arrayAdapter = new CustomAdapter(this.getContext(), arrayList);
         //listview.setAdapter(arrayAdapter);
         listview.setAdapter(arrayAdapter);
 

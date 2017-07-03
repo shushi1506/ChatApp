@@ -2,11 +2,13 @@ package com.example.shushi.testfirebase;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,10 +21,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.sinch.android.rtc.Sinch;
 
 import com.sinch.android.rtc.SinchClientListener;
 import com.sinch.android.rtc.SinchError;
+
+import static com.example.shushi.supports.SupportString.subSuffixeString;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener, SinchService.StartFailedListener {
 
@@ -35,22 +40,34 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Get Firebase auth instance
+
+        //region xác thực auth
         auth = FirebaseAuth.getInstance();
         try {
             if (auth.getCurrentUser() != null) {
+                if (auth.getCurrentUser().getDisplayName() == null) {
+
+                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                            .setDisplayName(SupportString.subSuffixeString(auth.getCurrentUser().getEmail()))
+                            .build();
+                    auth.getCurrentUser().updateProfile(profileUpdates)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(getApplicationContext(), "User profile updated.", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
+                }
                 startActivity(new Intent(this, TabControlActivity.class));
                 finish();
-                try {
-//                    loginClicked("anh");
-                    if (!getSinchServiceInterface().isStarted()) {
-                    }
-                } catch (Exception ex) {
-                }
+
             }
         } catch (Exception ex) {
             Toast.makeText(getApplicationContext(), ex.toString(), Toast.LENGTH_LONG).show();
         }
+        //endregion
         setContentView(R.layout.activity_login);
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);
@@ -69,8 +86,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void onClick(View v) {
         if (v == btnSignup) {
-            // startActivity(new Intent(LoginActivity.this, AccountKitActivity.class));
-            startActivity(new Intent(LoginActivity.this, SignupActivity.class));
+            startActivity(new Intent(LoginActivity.this, AccountKitActivity.class));
+//            startActivity(new Intent(LoginActivity.this, SignupActivity.class));
         }
         if (v == btnReset) {
             startActivity(new Intent(LoginActivity.this, ResetPasswordActivity.class));
@@ -106,6 +123,22 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                         }
                     } else {
                         loginClicked(call);
+                        if (auth.getCurrentUser().getPhotoUrl() == null) {
+
+                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                    .setPhotoUri(Uri.parse("https://firebasestorage.googleapis.com/v0/b/testfirebase-440b0.appspot.com/o/no-image-icon-hi.png?alt=media&token=8e248aa5-9378-4551-818c-4964838387c0"))
+                                    .build();
+
+                            auth.getCurrentUser().updateProfile(profileUpdates)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                Toast.makeText(getApplicationContext(), "User profile updated.", Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+                                    });
+                        }
                         Intent intent = new Intent(LoginActivity.this, TabControlActivity.class);
                         startActivity(intent);
                         finish();
@@ -144,7 +177,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     private void loginClicked(String email) {
 
-
         if (email.isEmpty()) {
             Toast.makeText(this, "Please enter a name", Toast.LENGTH_LONG).show();
             return;
@@ -153,7 +185,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         if (!getSinchServiceInterface().isStarted()) {
             try {
                 getSinchServiceInterface().startClient(email);
-
                 showSpinner();
             } catch (Exception ex) {
             }
@@ -166,16 +197,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     }
 
-    private void stopClient() {
-        if (getSinchServiceInterface() != null) {
-            getSinchServiceInterface().stopClient();
-        }
-    }
-
-    private void openPlaceCallActivity() {
-        Intent mainActivity = new Intent(this, PlaceCallActivity.class);
-        startActivity(mainActivity);
-    }
 
     private void showSpinner() {
         mSpinner = new ProgressDialog(this);

@@ -48,8 +48,8 @@ public class RecyclerViewFindFriendAdapter extends RecyclerView.Adapter<Recycler
         return profileModels;
     }
 
-    public RecyclerViewFindFriendAdapter(ArrayList<ProfileInviteModel> moviesList) {
-        this.profileModels = moviesList;
+    public RecyclerViewFindFriendAdapter(ArrayList<ProfileInviteModel> profilesList) {
+        this.profileModels = profilesList;
     }
 
     @Override
@@ -62,14 +62,14 @@ public class RecyclerViewFindFriendAdapter extends RecyclerView.Adapter<Recycler
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        final ProfileInviteModel movie = profileModels.get(position);
-        holder.title.setText(movie.getDisplayName());
+        final ProfileInviteModel profile = profileModels.get(position);
+        holder.title.setText(profile.getDisplayName());
         try {
-            Picasso.with(holder.circleImageView.getContext()).load(movie.getUrlPhoto()).placeholder(R.drawable.giphy).error(R.drawable.common_google_signin_btn_icon_dark).into(holder.circleImageView);
+            Picasso.with(holder.circleImageView.getContext()).load(profile.getUrlPhoto()).placeholder(R.drawable.giphy).error(R.drawable.common_google_signin_btn_icon_dark).into(holder.circleImageView);
         } catch (Exception ex) {
             holder.circleImageView.setImageResource(R.drawable.giphy);
         }
-        if (movie.isFriend()) {
+        if (profile.isFriend()) {
             holder.btnaddFriend.setText("Kết Bạn");
             holder.btnremoveAddfriend.setText("Xóa Bạn");
             holder.btnaddFriend.setEnabled(false);
@@ -79,7 +79,7 @@ public class RecyclerViewFindFriendAdapter extends RecyclerView.Adapter<Recycler
 
         } else {
 
-            if (movie.isInvited()) {
+            if (profile.isInvited()) {
                 holder.btnaddFriend.setText("Kết Bạn");
                 holder.btnremoveAddfriend.setText("Hủy Kết Bạn");
                 holder.btnaddFriend.setEnabled(false);
@@ -88,7 +88,7 @@ public class RecyclerViewFindFriendAdapter extends RecyclerView.Adapter<Recycler
                 holder.btnremoveAddfriend.setBackground(holder.mView.getResources().getDrawable(R.drawable.button_selector));
 
             } else {
-                if (movie.isBeInvited()) {
+                if (profile.isBeInvited()) {
                     holder.btnaddFriend.setText("Chấp Nhận");
                     holder.btnremoveAddfriend.setText("Từ Chối");
                     holder.btnaddFriend.setEnabled(true);
@@ -115,7 +115,7 @@ public class RecyclerViewFindFriendAdapter extends RecyclerView.Adapter<Recycler
             public void onClick(View v) {
                 switch (holder.btnremoveAddfriend.getText().toString()) {
                     case "Xóa Bạn":
-                        deleteFriend(EncodeString(user.getEmail()), EncodeString(addSuffixeString(movie.getEmailReset())), root);
+                        deleteFriend(EncodeString(user.getEmail()), EncodeString(addSuffixeString(profile.getEmailReset())), root);
                         holder.btnaddFriend.setText("Kết Bạn");
                         holder.btnremoveAddfriend.setText("Hủy Kết Bạn");
                         holder.btnaddFriend.setEnabled(true);
@@ -124,7 +124,7 @@ public class RecyclerViewFindFriendAdapter extends RecyclerView.Adapter<Recycler
                         holder.btnremoveAddfriend.setBackground(holder.mView.getResources().getDrawable(R.drawable.button_not_enable));
                         break;
                     case "Hủy Kết Bạn":
-                        deleteInvite(EncodeString(user.getEmail()), EncodeString(addSuffixeString(movie.getEmailReset())), root);
+                        deleteInvite(EncodeString(user.getEmail()), EncodeString(addSuffixeString(profile.getEmailReset())), root);
                         holder.btnaddFriend.setText("Kết Bạn");
                         holder.btnremoveAddfriend.setText("Hủy Kết Bạn");
                         holder.btnaddFriend.setEnabled(true);
@@ -133,7 +133,7 @@ public class RecyclerViewFindFriendAdapter extends RecyclerView.Adapter<Recycler
                         holder.btnremoveAddfriend.setBackground(holder.mView.getResources().getDrawable(R.drawable.button_not_enable));
                         break;
                     case "Từ Chối":
-                        deleteInvite(EncodeString(addSuffixeString(movie.getEmailReset())), EncodeString(user.getEmail()), root);
+                        deleteInvite(EncodeString(addSuffixeString(profile.getEmailReset())), EncodeString(user.getEmail()), root);
                         holder.btnaddFriend.setText("Kết Bạn");
                         holder.btnremoveAddfriend.setText("Hủy Kết Bạn");
                         holder.btnaddFriend.setEnabled(true);
@@ -153,7 +153,7 @@ public class RecyclerViewFindFriendAdapter extends RecyclerView.Adapter<Recycler
                         ms.setTextMessage("Hai người đã là bạn");
                         Calendar today = Calendar.getInstance();
                         ms.setTimeMessage(String.valueOf(today.getTimeInMillis()));
-                        addFriendWithInvite(EncodeString(user.getEmail()), EncodeString(addSuffixeString(movie.getEmailReset())), root, ms, true);
+                        addFriendWithInvite(EncodeString(user.getEmail()), EncodeString(addSuffixeString(profile.getEmailReset())), root, ms, true);
                         holder.btnaddFriend.setText("Kết Bạn");
                         holder.btnremoveAddfriend.setText("Xóa Bạn");
                         holder.btnaddFriend.setEnabled(false);
@@ -162,7 +162,7 @@ public class RecyclerViewFindFriendAdapter extends RecyclerView.Adapter<Recycler
                         holder.btnremoveAddfriend.setBackground(holder.mView.getResources().getDrawable(R.drawable.button_selector));
                         break;
                     case "Kết Bạn":
-                        sendInvite(EncodeString(user.getEmail()), EncodeString(addSuffixeString(movie.getEmailReset())), root);
+                        sendInvite(EncodeString(user.getEmail()), EncodeString(addSuffixeString(profile.getEmailReset())), root);
                         holder.btnaddFriend.setText("Kết Bạn");
                         holder.btnremoveAddfriend.setText("Hủy Kết Bạn");
                         holder.btnaddFriend.setEnabled(false);
@@ -176,11 +176,10 @@ public class RecyclerViewFindFriendAdapter extends RecyclerView.Adapter<Recycler
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (movie.isFriend()) {
+                if (profile.isFriend()) {
                     Context va = v.getContext();
                     Intent intent = new Intent(va, ChatActivity.class);
-                    intent.putExtra("keyPushFriend", movie.getEmailReset());
-
+                    intent.putExtra("keyPushFriend", profile.getEmailReset());
                     va.startActivity(intent);
                 }
             }

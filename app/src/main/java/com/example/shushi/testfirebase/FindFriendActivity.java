@@ -63,6 +63,7 @@ public class FindFriendActivity extends AppCompatActivity implements View.OnClic
         listFind.setLayoutManager(new LinearLayoutManager(listFind.getContext()));
         listFind.setAdapter(arrayAdapter);
         btnSearchFind.setOnClickListener(this);
+        btnBackFind.setOnClickListener(this);
         listFind.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,18 +82,18 @@ public class FindFriendActivity extends AppCompatActivity implements View.OnClic
             query.addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    Toast.makeText(getApplicationContext(), "chay day 1", Toast.LENGTH_LONG).show();
+
                     final String key = dataSnapshot.getKey();
-                    Toast.makeText(getApplicationContext(), "chay day 1111", Toast.LENGTH_LONG).show();
+
                     if (dataSnapshot.exists()) {
-                        Toast.makeText(getApplicationContext(), "chay day 2", Toast.LENGTH_LONG).show();
+
                         final Query q = root.child("Users").child(SupportString.EncodeString(user.getEmail())).child("Friend").child(key);
                         q.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 String k = dataSnapshot.child("keypushFriend").getValue(String.class);
                                 if (dataSnapshot.exists()) {
-                                    Toast.makeText(getApplicationContext(), "Load fr", Toast.LENGTH_LONG).show();
+
                                     Query queryRef = root.child("Users").child(key);
                                     queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
@@ -117,7 +118,7 @@ public class FindFriendActivity extends AppCompatActivity implements View.OnClic
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
                                             String kta = dataSnapshot.child("keypushFriend").getValue(String.class);
-                                            Toast.makeText(getApplicationContext(), "Load invite", Toast.LENGTH_LONG).show();
+
                                             if (dataSnapshot.exists()) {
                                                 Query queryRef = root.child("Users").child(key);
                                                 queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -143,7 +144,6 @@ public class FindFriendActivity extends AppCompatActivity implements View.OnClic
                                                 qr.addListenerForSingleValueEvent(new ValueEventListener() {
                                                     @Override
                                                     public void onDataChange(DataSnapshot dataSnapshot) {
-                                                        Toast.makeText(getApplicationContext(), "Load invited", Toast.LENGTH_LONG).show();
                                                         String ktp = dataSnapshot.child("keypushFriend").getValue(String.class);
                                                         if (dataSnapshot.exists()) {
                                                             Query queryRef = root.child("Users").child(key);

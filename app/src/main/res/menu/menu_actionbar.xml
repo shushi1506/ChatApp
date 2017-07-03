@@ -9,7 +9,7 @@
     </item>
     <item
         android:id="@+id/miProfile"
-        android:icon="@drawable/add_chat"
+        android:icon="@drawable/logout"
         app:showAsAction="ifRoom|withText"
         android:title="Profile">
     </item>

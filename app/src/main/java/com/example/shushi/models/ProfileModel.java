@@ -17,7 +17,7 @@ public class ProfileModel {
     private String emailReset;
     private String urlPhoto;
     private Boolean isConnect;
-//    private Map<String,String> lastConnect;
+    private Map<String,String> lastConnect;
 
 
     public ProfileModel() {

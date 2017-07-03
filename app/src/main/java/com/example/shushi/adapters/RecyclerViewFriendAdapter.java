@@ -28,14 +28,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RecyclerViewFriendAdapter extends RecyclerView.Adapter<RecyclerViewFriendAdapter.MyViewHolder> {
 
-    private ArrayList<ProfileModel> moviesList;
+    private ArrayList<ProfileModel> profilesList;
 
 
     public ArrayList<ProfileModel> getMoviesList() {
-        return moviesList;
+        return profilesList;
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder   {
+    public class MyViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public TextView title;
         public ImageView circleImageView;
@@ -47,14 +47,11 @@ public class RecyclerViewFriendAdapter extends RecyclerView.Adapter<RecyclerView
             circleImageView = (ImageView) view.findViewById(R.id.imageview_model_friend);
 
         }
-
-
     }
 
-    public RecyclerViewFriendAdapter(ArrayList<ProfileModel> moviesList) {
-        this.moviesList = moviesList;
+    public RecyclerViewFriendAdapter(ArrayList<ProfileModel> profilesList) {
+        this.profilesList = profilesList;
     }
-
 
 
     @Override
@@ -67,27 +64,27 @@ public class RecyclerViewFriendAdapter extends RecyclerView.Adapter<RecyclerView
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        final ProfileModel movie = moviesList.get(position);
-        holder.title.setText(movie.getDisplayName());
+        final ProfileModel pro = profilesList.get(position);
+        holder.title.setText(pro.getDisplayName());
         try {
-            Picasso.with(holder.circleImageView.getContext()).load(movie.getUrlPhoto()).placeholder(R.drawable.giphy).error(R.drawable.common_google_signin_btn_icon_dark).into(holder.circleImageView);
+            Picasso.with(holder.circleImageView.getContext()).load(pro.getUrlPhoto()).placeholder(R.drawable.giphy).error(R.drawable.common_google_signin_btn_icon_dark).into(holder.circleImageView);
         } catch (Exception ex) {
             holder.circleImageView.setImageResource(R.drawable.giphy);
         }
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Context va=v.getContext();
-                Intent intent=new Intent(va, ChatActivity.class);
-                intent.putExtra("keyPushFriend",movie.getEmailReset());
-
+                Context va = v.getContext();
+                Intent intent = new Intent(va, ChatActivity.class);
+                intent.putExtra("keyPushFriend", pro.getEmailReset());
+                intent.putExtra("urlImgFriend", pro.getUrlPhoto());
                 va.startActivity(intent);
             }
         });
         holder.mView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Context va=v.getContext();
+                Context va = v.getContext();
 
                 return true;
             }
@@ -97,6 +94,6 @@ public class RecyclerViewFriendAdapter extends RecyclerView.Adapter<RecyclerView
 
     @Override
     public int getItemCount() {
-        return moviesList.size();
+        return profilesList.size();
     }
 }

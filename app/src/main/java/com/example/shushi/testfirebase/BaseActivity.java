@@ -7,6 +7,7 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 public abstract class BaseActivity extends AppCompatActivity implements ServiceConnection {
 
@@ -37,10 +38,14 @@ public abstract class BaseActivity extends AppCompatActivity implements ServiceC
 
     protected void onServiceConnected() {
         // for subclasses
+        Toast.makeText(getApplicationContext(), "no dis.", Toast.LENGTH_LONG).show();
+
     }
 
     protected void onServiceDisconnected() {
         // for subclasses
+        Toast.makeText(getApplicationContext(), "dis.", Toast.LENGTH_LONG).show();
+
     }
 
     protected SinchService.SinchServiceInterface getSinchServiceInterface() {

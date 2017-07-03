@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -27,11 +28,16 @@ import com.example.shushi.fragments.ThreeFragment;
 import com.example.shushi.fragments.TwoFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+import com.sinch.android.rtc.MissingPermissionException;
 import com.sinch.android.rtc.SinchError;
 import com.sinch.android.rtc.calling.Call;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import static com.example.shushi.supports.SupportString.subSuffixeString;
 
 
 public class TabControlActivity extends BaseActivity implements SinchService.StartFailedListener {
@@ -45,7 +51,6 @@ public class TabControlActivity extends BaseActivity implements SinchService.Sta
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab_control);
-//        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
@@ -54,10 +59,10 @@ public class TabControlActivity extends BaseActivity implements SinchService.Sta
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        if (navigationView != null) {
-            setupDrawerContent(navigationView);
-        }
+//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+//        if (navigationView != null) {
+//            setupDrawerContent(navigationView);
+//        }
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
 
@@ -66,6 +71,8 @@ public class TabControlActivity extends BaseActivity implements SinchService.Sta
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         viewPager.setOffscreenPageLimit(2);
         tabLayout.setupWithViewPager(viewPager);
+
+
 
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -96,13 +103,14 @@ public class TabControlActivity extends BaseActivity implements SinchService.Sta
     private void setupTabIcons() {
         int[] tabIcons = {
                 R.drawable.contact_icon,
-                R.drawable.call_icon
+                R.drawable.profile,
+                R.drawable.addfriend
         };
 
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
 
         tabLayout.getTabAt(1).setIcon(tabIcons[1]);
-        tabLayout.getTabAt(2).setIcon(tabIcons[0]);
+        tabLayout.getTabAt(2).setIcon(tabIcons[2]);
     }
 
 
@@ -132,7 +140,7 @@ public class TabControlActivity extends BaseActivity implements SinchService.Sta
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
+//                mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
             case R.id.searchMenu:
                 startActivity(new Intent(getApplicationContext(), FindFriendActivity.class));
@@ -160,6 +168,9 @@ public class TabControlActivity extends BaseActivity implements SinchService.Sta
 
     }
 
+    protected void onServiceConnected() {
+        getSinchServiceInterface().setStartListener(this);
+    }
     @Override
     public void onStarted() {
 
@@ -168,8 +179,6 @@ public class TabControlActivity extends BaseActivity implements SinchService.Sta
         if (getSinchServiceInterface() != null) {
             getSinchServiceInterface().stopClient();
         }
-        Toast.makeText(getApplicationContext(),"da",Toast.LENGTH_SHORT).show();
-
     }
 
     class ViewPagerAdapter extends FragmentStatePagerAdapter {
@@ -200,6 +209,13 @@ public class TabControlActivity extends BaseActivity implements SinchService.Sta
             return null;
         }
 
+
+    }
+
+    @Override
+    protected void onStop() {
+
+        super.onStop();
 
     }
 }

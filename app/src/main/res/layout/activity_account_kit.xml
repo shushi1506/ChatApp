@@ -17,6 +17,7 @@
             android:id="@+id/auth_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             />
         <Button
             android:id="@+id/btnlogout_account_kit"

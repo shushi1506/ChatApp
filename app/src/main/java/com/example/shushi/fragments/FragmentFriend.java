@@ -26,6 +26,7 @@ import com.example.shushi.models.ProfileModel;
 import com.example.shushi.testfirebase.ChatActivity;
 import com.example.shushi.testfirebase.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -56,7 +57,6 @@ public class FragmentFriend extends Fragment  {
     }
 
     FirebaseAuth firebaseAuth;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -77,6 +77,7 @@ public class FragmentFriend extends Fragment  {
 
     public void load_data_test() {
         root = FirebaseDatabase.getInstance().getReference();
+        root.keepSynced(true);
         firebaseAuth = FirebaseAuth.getInstance();
         //query find friend
 //        Query query=root.child("Users").orderByChild("displayName").equalTo("0155555555");
@@ -134,6 +135,7 @@ public class FragmentFriend extends Fragment  {
 //        });
         //query test
         Query query = root.child("Users").child(EncodeString(firebaseAuth.getCurrentUser().getEmail())).child("Friend");
+        query.keepSynced(true);
         query.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {

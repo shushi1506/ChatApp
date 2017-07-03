@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         arrayList = new ArrayList<MessageChat>();
-        arrayAdapter = new CustomAdapter(this.getApplicationContext(), arrayList);
+//        arrayAdapter = new CustomAdapter(this.getApplicationContext(), arrayList);
         //listview.setAdapter(arrayAdapter);
         listview.setAdapter(arrayAdapter);
       
